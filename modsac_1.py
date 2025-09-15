@@ -13,7 +13,6 @@ import plotly.express as px
 # LOCATION FUNCTION
 # =====================
 def get_user_location():
-    """Get user's current location via IP geolocation."""
     try:
         res = requests.get("https://ipapi.co/json/", timeout=10)
         if res.status_code == 200:
@@ -24,9 +23,8 @@ def get_user_location():
     except Exception:
         return None, None, None
 
-# =====================
 # API FETCH FUNCTIONS
-# =====================
+
 def fetch_weather(lat, lon, start_date, end_date):
     try:
         url = (
@@ -76,9 +74,8 @@ def fetch_flood(lat, lon, start_date, end_date):
     except Exception as e:
         return {"error": f"Flood API failed: {e}"}
 
-# =====================
+
 # ANALYSIS FUNCTIONS
-# =====================
 def analyze_extremes(df):
     events = {}
     if df is not None and not df.empty and "tmax" in df.columns and "rain" in df.columns:
@@ -149,9 +146,8 @@ def generate_report(region, start_date, end_date, weather_df, forecast_df, extre
 
     return "\n".join(report)
 
-# =====================
+
 # STREAMLIT APP
-# =====================
 st.set_page_config(page_title="Farm Analytics", layout="wide")
 st.title("🌱 Farm Analytics – Prototype")
 st.markdown("Weather + Forecast + Extreme Events + Interactive Visualizations + Farmer Report + Flood Analysis")
@@ -294,3 +290,4 @@ if st.button("🚀 Run Full Analysis"):
         st.subheader("📑 Farmer Report")
         report = generate_report(region, start_date, end_date, weather_df, forecast_df, extremes, flood_data)
         st.markdown(report)
+
